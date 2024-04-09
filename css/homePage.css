@@ -1,0 +1,9 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.header {
+    background-color: #26282e;
+    height: 100px;
+}
