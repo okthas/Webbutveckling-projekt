@@ -7,3 +7,7 @@
     background-color: #26282e;
     height: 100px;
 }
+
+.headerContent {
+    display: block;
+}
