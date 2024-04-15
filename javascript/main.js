@@ -1,4 +1,3 @@
-header = document.getElementsByClassName("header")
-aboutUs = document.getElementsByClassName("aboutUs")
+homeButton = document.getElementsByClassName("headerButtons")[0]
 
-// document.onclick
+onclick.homeButton = !1
