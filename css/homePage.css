@@ -3,11 +3,56 @@
     padding: 0;
 }
 
+/* Header */
+
 .header {
     background-color: #26282e;
     height: 100px;
+    align-items: center;
+    display: flex;
 }
 
-.headerContent {
-    display: block;
+.Logo {
+    margin-right: 50px;
+}
+
+.headerButtons {
+    margin-top: 30px;
+    margin-left: 50px;
+    font-size: 35px;
+    color: #ffa9a9;
+}
+
+/* !Header; About Us */
+
+.aboutUs {
+    margin: 40px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+h1, h2, p {
+    text-align: center;
+}
+
+.aboutUsTitle {
+    text-align: center;
+}
+
+.aboutUsH2Text {
+    font-size: 17px;
+    color: #000000;
+    align-self: center;
+}
+
+.aboutUsPText {
+    margin: 10px;
+    margin-bottom: 40px;
+    margin-right: 120px;
+    margin-left: 120px;
+    font-size: 13px;
+    color: #222121;
+}
+
+.endingStatement {
+    margin: 100px;
 }
