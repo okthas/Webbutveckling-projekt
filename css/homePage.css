@@ -3,6 +3,12 @@
     padding: 0;
 }
 
+#pageCanvas {
+    border: 5px;
+    border-color: #000000;
+    background-color: #eee;
+}
+
 /* Header */
 
 .header {
@@ -20,7 +26,7 @@
     margin-top: 30px;
     margin-left: 50px;
     font-size: 35px;
-    color: #ffa9a9;
+    color: #ffffff;
 }
 
 /* !Header; About Us */
@@ -28,6 +34,8 @@
 .aboutUs {
     margin: 40px;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    border: 5px;
+    border-color:#000000;
 }
 
 h1, h2, p {
