@@ -108,4 +108,57 @@ storeButton.addEventListener("click", (e) => {
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     // canvas.height = x // when you add products, it should make the canvas as big as all the items.
     drawButton(0, 0, canvas.width/5, canvas.height/9, variable, itemType, true, "#000", "#fff", variable);
+    drawButton(0, canvas.height - canvas.height/30, canvas.width/15, canvas.height/30, "Flappy Bird", flappyBird, true, "#000", "#fff", null);
 })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// flappy bird because why not
+player = {
+    x: 100,
+    y: canvas.height/2,
+    vel: 0,
+    click: false,
+    trigger: true,
+}
+function flappyBird() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+    requestAnimationFrame(flappyBird)
+    
+    if (!player.click) {
+        player.vel--
+    } 
+    else if (player.click && !player.trigger) {
+        player.vel = 15
+        player.trigger = true
+    }
+
+    player.y -= player.vel
+    player.vel *= 0.93
+
+    ctx.fillStyle = "#000"
+    ctx.fillRect(player.x, player.y, 50, 50)
+}
+document.body.addEventListener("mousedown", function (e) {
+    player.click = true
+});
+document.body.addEventListener("mouseup", function (e) {
+    player.click = false
+    player.trigger = false
+});
