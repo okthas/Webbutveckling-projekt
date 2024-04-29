@@ -130,35 +130,90 @@ storeButton.addEventListener("click", (e) => {
 
 
 // flappy bird because why not
-player = {
-    x: 100,
+let player = {
+    x: 300,
     y: canvas.height/2,
     vel: 0,
     click: false,
-    trigger: true,
+    trigger: false,
+    gameStarted: false,
 }
+
+function game() {
+    return player.gameStarted = true, player.y = canvas.height/2, player.vel = 0
+}
+
+function endGame() {
+    ctx.font = "70px Arial";
+    ctx.fillStyle = "#f00";
+    ctx.fillText("Game Over!", canvas.width/3 + canvas.width/70, canvas.height/4);
+    return player.gameStarted = false
+}
+
+function createPlatform(x, y, width, height) {
+    let platform = {
+        x: x,
+        y: y,
+        width: width,
+        height: height,
+    }; return platform
+}
+
+function checkCollision(platform) {
+    return (player.y + canvas.height/12 >= platform.y &&
+    player.y <= platform.y + platform.height &&
+    player.x + canvas.height/12 >= platform.x &&
+    player.x <= platform.x + platform.width)
+} 
+
+function moveSurroundings() {
+    return platform0.x-=canvas.width/400, platform1.x-=canvas.width/400
+}
+
+function renderPlatform(platform) {
+    ctx.fillStyle = "#404040";
+    ctx.fillRect(platform.x,platform.y,platform.width,platform.height); 
+} 
+
+let platform0 = createPlatform(600, -1 * Math.random() * canvas.height/7, canvas.height/9, canvas.height/2),
+    platform1 = createPlatform(600, platform0.y + canvas.height/2 + canvas.height/4, canvas.height/9, canvas.height/2);
+
 function flappyBird() {
     ctx.clearRect(0, 0, canvas.width, canvas.height)
-    requestAnimationFrame(flappyBird)
-    
-    if (!player.click) {
-        player.vel--
+
+    if (player.gameStarted) {
+        if (!player.click) {
+            player.trigger = true
+        }
+        if (player.click && player.trigger) {
+            player.trigger = false; player.vel = canvas.height/45
+        }
+        
+        player.vel-=canvas.height/850
+
+        player.y -= player.vel
+        player.vel *= 0.93
+
+        ctx.fillStyle = "#000"
+        ctx.fillRect(player.x, player.y, canvas.height/12, canvas.height/12)
+
+        renderPlatform(platform0)
+        renderPlatform(platform1)
+
+        moveSurroundings()
+
+        if (checkCollision(platform0) || checkCollision(platform1) || player.y < canvas.height/12 || player.y > canvas.height) {endGame()} // add more like if the character touches a platform
     } 
-    else if (player.click && !player.trigger) {
-        player.vel = 15
-        player.trigger = true
+    requestAnimationFrame(flappyBird) 
+    if (!player.gameStarted) {
+        drawButton(canvas.width/3, canvas.height/3, canvas.width/3, canvas.height/7, "Start game", game, true, "#00f", "#fff", null);
     }
-
-    player.y -= player.vel
-    player.vel *= 0.93
-
-    ctx.fillStyle = "#000"
-    ctx.fillRect(player.x, player.y, 50, 50)
 }
+
 document.body.addEventListener("mousedown", function (e) {
     player.click = true
 });
+
 document.body.addEventListener("mouseup", function (e) {
     player.click = false
-    player.trigger = false
 });
