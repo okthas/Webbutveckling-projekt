@@ -12,6 +12,20 @@ console.log(canvas)
 let homePageImage = new Image()
 homePageImage.src = "images/homePageImage.jpg"
 
+let otherProducts = {
+    jordan1: new Image()
+}
+otherProducts.jordan1.src = "images/spiderverse-other-jordans.webp"
+
+let shirtsProducts = {
+    tshirt: new Image()
+}
+shirtsProducts.tshirt.src = "images/spiderverse-shirts-spiderversetshirt0.jpeg"
+
+let pantsProducts = {
+
+}
+
 console.log(homePageImage)
 
 homePageImage.onload = function() {
@@ -26,8 +40,10 @@ homePageImage.onload = function() {
 
 function all(variable) {
     variable = "All"
+    console.log(Object.keys(otherProducts).length)
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     drawButton(0, 0, canvas.width/5, canvas.height/9, variable, itemType, true, "#000", "#fff", variable);
+    drawButton(0, canvas.height - canvas.height/30, canvas.width/15, canvas.height/30, "Flappy Bird", flappyBird, true, "#000", "#fff", null);
     return variable
 }
 
@@ -35,6 +51,7 @@ function pants(variable) {
     variable = "Pants"
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     drawButton(0, 0, canvas.width/5, canvas.height/9, variable, itemType, true, "#000", "#fff", variable);
+    drawButton(0, canvas.height - canvas.height/30, canvas.width/15, canvas.height/30, "Flappy Bird", flappyBird, true, "#000", "#fff", null);
     return variable
 }
 
@@ -42,6 +59,7 @@ function shirts(variable) {
     variable = "Shirts"
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     drawButton(0, 0, canvas.width/5, canvas.height/9, variable, itemType, true, "#000", "#fff", variable);
+    drawButton(0, canvas.height - canvas.height/30, canvas.width/15, canvas.height/30, "Flappy Bird", flappyBird, true, "#000", "#fff", null);
     return variable
 }
 
@@ -49,6 +67,7 @@ function accessories(variable) {
     variable = "Other"
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     drawButton(0, 0, canvas.width/5, canvas.height/9, variable, itemType, true, "#000", "#fff", variable);
+    drawButton(0, canvas.height - canvas.height/30, canvas.width/15, canvas.height/30, "Flappy Bird", flappyBird, true, "#000", "#fff", null);
     return variable
 }
 
@@ -137,17 +156,24 @@ let player = {
     click: false,
     trigger: false,
     gameStarted: false,
+    score: 0,
+    gameSpeed: 400,
+    scoreCounter: 0,
 }
 
 function game() {
-    return player.gameStarted = true, player.y = canvas.height/2, player.vel = 0
+    return player.gameStarted = true, player.y = canvas.height/2, player.vel = 0, 
+    platform0 = createPlatform(canvas.width/2, 0.5 * canvas.height * Math.random() - canvas.height * 0.9, canvas.height/9, canvas.height),
+    platform1 = createPlatform(canvas.width/2, platform0.y + canvas.height + canvas.height/4, canvas.height/9, canvas.height),
+    player.score = 0, player.scoreCounter = 0, player.gameSpeed = 400
 }
 
 function endGame() {
     ctx.font = "70px Arial";
-    ctx.fillStyle = "#f00";
+    ctx.fillStyle = "#000";
     ctx.fillText("Game Over!", canvas.width/3 + canvas.width/70, canvas.height/4);
-    return player.gameStarted = false
+    ctx.font = "50px Arial";
+    ctx.fillText(`Final Score: ${player.score}`, canvas.width/3 + canvas.width/70, canvas.height/4 + canvas.height/10);
 }
 
 function createPlatform(x, y, width, height) {
@@ -156,18 +182,19 @@ function createPlatform(x, y, width, height) {
         y: y,
         width: width,
         height: height,
-    }; return platform
+    }
+    return platform
 }
 
 function checkCollision(platform) {
-    return (player.y + canvas.height/12 >= platform.y &&
+    return (player.y + canvas.height/14 >= platform.y &&
     player.y <= platform.y + platform.height &&
-    player.x + canvas.height/12 >= platform.x &&
+    player.x + canvas.height/14 >= platform.x &&
     player.x <= platform.x + platform.width)
 } 
 
-function moveSurroundings() {
-    return platform0.x-=canvas.width/400, platform1.x-=canvas.width/400
+function moveSurroundings(variable) {
+    return platform0.x-=canvas.width/variable, platform1.x-=canvas.width/variable
 }
 
 function renderPlatform(platform) {
@@ -175,9 +202,9 @@ function renderPlatform(platform) {
     ctx.fillRect(platform.x,platform.y,platform.width,platform.height); 
 } 
 
-let platform0 = createPlatform(600, -1 * Math.random() * canvas.height/7, canvas.height/9, canvas.height/2),
-    platform1 = createPlatform(600, platform0.y + canvas.height/2 + canvas.height/4, canvas.height/9, canvas.height/2);
-
+let platform0 = createPlatform(canvas.width/2, 0.5 * canvas.height * Math.random() - canvas.height * 0.9, canvas.height/9, canvas.height),
+    platform1 = createPlatform(canvas.width/2, platform0.y + canvas.height + canvas.height/4, canvas.height/9, canvas.height);
+    
 function flappyBird() {
     ctx.clearRect(0, 0, canvas.width, canvas.height)
 
@@ -195,19 +222,36 @@ function flappyBird() {
         player.vel *= 0.93
 
         ctx.fillStyle = "#000"
-        ctx.fillRect(player.x, player.y, canvas.height/12, canvas.height/12)
+        ctx.fillRect(player.x, player.y, canvas.height/14, canvas.height/14)
 
         renderPlatform(platform0)
         renderPlatform(platform1)
 
-        moveSurroundings()
+        if (player.scoreCounter % 5 == 1) {
+            player.scoreCounter--
+            player.gameSpeed-=player.gameSpeed/12
+        }
 
-        if (checkCollision(platform0) || checkCollision(platform1) || player.y < canvas.height/12 || player.y > canvas.height) {endGame()} // add more like if the character touches a platform
-    } 
-    requestAnimationFrame(flappyBird) 
-    if (!player.gameStarted) {
-        drawButton(canvas.width/3, canvas.height/3, canvas.width/3, canvas.height/7, "Start game", game, true, "#00f", "#fff", null);
+        moveSurroundings(player.gameSpeed)
+        
+        if (player.x > platform0.x + canvas.height/9) {
+            player.score++
+            player.scoreCounter = player.score
+            platform0 = createPlatform(canvas.width/2, 0.5 * canvas.height * Math.random() - canvas.height * 0.9, canvas.height/9, canvas.height)
+            platform1 = createPlatform(canvas.width/2, platform0.y + canvas.height + canvas.height/4, canvas.height/9, canvas.height)
+        }
+        ctx.font = "70px Arial";
+        ctx.fillStyle = "#000";
+        ctx.fillText(`${player.score}`, canvas.width/3 + canvas.width/70, canvas.height/4);    
+        if (checkCollision(platform0) || checkCollision(platform1) || player.y < canvas.height/14 || player.y > canvas.height) {
+            player.gameStarted = false
+        } 
+    } else {
+        endGame()
+        drawButton(canvas.width/3, canvas.height/2, canvas.width/3, canvas.height/7, "Start game", game, true, "#00f", "#fff", null);
     }
+
+    requestAnimationFrame(flappyBird) 
 }
 
 document.body.addEventListener("mousedown", function (e) {
