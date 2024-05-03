@@ -13,12 +13,15 @@ let homePageImage = new Image()
 homePageImage.src = "images/homePageImage.jpg"
 
 let otherProducts = {
-    jordan1: new Image()
+    jordan1: new Image(),
+    necklace: new Image(),
+    x: new Image(),
 }
 otherProducts.jordan1.src = "images/spiderverse-other-jordans.webp"
+otherProducts.necklace.src = "images/spiderverse-other-necklace.jpg"
 
 let shirtsProducts = {
-    tshirt: new Image()
+    tshirt: new Image(),
 }
 shirtsProducts.tshirt.src = "images/spiderverse-shirts-spiderversetshirt0.jpeg"
 
@@ -38,12 +41,23 @@ homePageImage.onload = function() {
 
 // store
 
+function renderProducts(products) {
+    if (Object.keys(products).length > 2) {
+        canvas.height = window.innerHeight + canvas.height / 4 * Object.keys(products).length // makes it so if there are more than 2 products then the height of the canvas is increased to give them space to render
+    }
+    for (i=0;i<Object.keys(products).length;i++) {
+        ctx.fillStyle="#666"
+        ctx.fillRect(i*canvas.width/2+canvas.width/20, canvas.height/2*i%2+canvas.height/7, canvas.width/2-canvas.width/20, canvas.height/2-canvas.height/10)
+    }
+}
+
 function all(variable) {
     variable = "All"
-    console.log(Object.keys(otherProducts).length)
+    // console.log(Object.keys(otherProducts).length)
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     drawButton(0, 0, canvas.width/5, canvas.height/9, variable, itemType, true, "#000", "#fff", variable);
     drawButton(0, canvas.height - canvas.height/30, canvas.width/15, canvas.height/30, "Flappy Bird", flappyBird, true, "#000", "#fff", null);
+    // renderProducts(allProducts) add "allProducts"
     return variable
 }
 
@@ -52,6 +66,7 @@ function pants(variable) {
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     drawButton(0, 0, canvas.width/5, canvas.height/9, variable, itemType, true, "#000", "#fff", variable);
     drawButton(0, canvas.height - canvas.height/30, canvas.width/15, canvas.height/30, "Flappy Bird", flappyBird, true, "#000", "#fff", null);
+    renderProducts(pantsProducts)
     return variable
 }
 
@@ -60,14 +75,16 @@ function shirts(variable) {
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     drawButton(0, 0, canvas.width/5, canvas.height/9, variable, itemType, true, "#000", "#fff", variable);
     drawButton(0, canvas.height - canvas.height/30, canvas.width/15, canvas.height/30, "Flappy Bird", flappyBird, true, "#000", "#fff", null);
+    renderProducts(shirtsProducts)
     return variable
 }
 
-function accessories(variable) {
+function other(variable) {
     variable = "Other"
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     drawButton(0, 0, canvas.width/5, canvas.height/9, variable, itemType, true, "#000", "#fff", variable);
     drawButton(0, canvas.height - canvas.height/30, canvas.width/15, canvas.height/30, "Flappy Bird", flappyBird, true, "#000", "#fff", null);
+    renderProducts(otherProducts)
     return variable
 }
 
@@ -75,19 +92,19 @@ function itemType(variable) {
     if (variable == "All") {
         drawButton(canvas.width/5, 0, canvas.width/9, canvas.height/20, "Pants", pants, true, "#00f", "#fff", "Pants");
         drawButton(canvas.width/5, canvas.height/20, canvas.width/9, canvas.height/20, "Shirts", shirts, true, "#0f0", "#fff", "Shirts");
-        drawButton(canvas.width/5, 2*canvas.height/20, canvas.width/9, canvas.height/20, "Other", accessories, true, "#f00", "#fff", "Other");
+        drawButton(canvas.width/5, 2*canvas.height/20, canvas.width/9, canvas.height/20, "Other", other, true, "#f00", "#fff", "Other");
     }
 
     if (variable == "Pants") {
         drawButton(canvas.width/5, 0, canvas.width/9, canvas.height/20, "All", all, true, "#00f", "#fff", "All");
         drawButton(canvas.width/5, canvas.height/20, canvas.width/9, canvas.height/20, "Shirts", shirts, true, "#0f0", "#fff", "Shirts");
-        drawButton(canvas.width/5, 2*canvas.height/20, canvas.width/9, canvas.height/20, "Other", accessories, true, "#f00", "#fff", "Other");
+        drawButton(canvas.width/5, 2*canvas.height/20, canvas.width/9, canvas.height/20, "Other", other, true, "#f00", "#fff", "Other");
     }
 
     if (variable == "Shirts") {
         drawButton(canvas.width/5, 0, canvas.width/9, canvas.height/20, "Pants", pants, true, "#00f", "#fff", "Pants");
         drawButton(canvas.width/5, canvas.height/20, canvas.width/9, canvas.height/20, "All", all, true, "#0f0", "#fff", "All");
-        drawButton(canvas.width/5, 2*canvas.height/20, canvas.width/9, canvas.height/20, "Other", accessories, true, "#f00", "#fff", "Other");
+        drawButton(canvas.width/5, 2*canvas.height/20, canvas.width/9, canvas.height/20, "Other", other, true, "#f00", "#fff", "Other");
     }
 
     if (variable == "Other") {
@@ -148,7 +165,7 @@ storeButton.addEventListener("click", (e) => {
 
 
 
-// flappy bird because why not
+// flappy bird because why not / no i didn't copy this, i made it by hand and idk y tbh
 let player = {
     x: 300,
     y: canvas.height/2,
@@ -174,6 +191,7 @@ function endGame() {
     ctx.fillText("Game Over!", canvas.width/3 + canvas.width/70, canvas.height/4);
     ctx.font = "50px Arial";
     ctx.fillText(`Final Score: ${player.score}`, canvas.width/3 + canvas.width/70, canvas.height/4 + canvas.height/10);
+    ctx.fillText(`Press LMB to jump!`, canvas.width/3 + canvas.width/70, canvas.height/4 + canvas.height/2);
 }
 
 function createPlatform(x, y, width, height) {
@@ -206,6 +224,7 @@ let platform0 = createPlatform(canvas.width/2, 0.5 * canvas.height * Math.random
     platform1 = createPlatform(canvas.width/2, platform0.y + canvas.height + canvas.height/4, canvas.height/9, canvas.height);
     
 function flappyBird() {
+    canvas.height = window.innerHeight
     ctx.clearRect(0, 0, canvas.width, canvas.height)
 
     if (player.gameStarted) {
