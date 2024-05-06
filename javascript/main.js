@@ -20,7 +20,6 @@ let allProducts = {
     otherProducts: {
         jordan1: new Image(),
         necklace: new Image(),
-        x: new Image(),
     },
 
     shirtsProducts: {
