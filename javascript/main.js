@@ -18,21 +18,30 @@ homePageImage.src = "images/homePageImage.jpg"
 
 let allProducts = {
     otherProducts: {
-        jordan1: new Image(),
-        necklace: new Image(),
+        jordan1: {
+            img: new Image(),
+            price: 200,
+        },
+        necklace: {
+            img: new Image(),
+            price: 50,
+        },
     },
 
     shirtsProducts: {
-        tshirt: new Image(),
+        tshirt: {
+            img: new Image(),
+            price: 40,
+        },
     },
 
     pantsProducts: {
 
     },
 }
-allProducts.otherProducts.jordan1.src = "images/spiderverse-other-jordans.webp"
-allProducts.otherProducts.necklace.src = "images/spiderverse-other-necklace.jpg"
-allProducts.shirtsProducts.tshirt.src = "images/spiderverse-shirts-spiderversetshirt0.jpeg"
+allProducts.otherProducts.jordan1.img.src = "images/spiderverse-other-jordans.webp"
+allProducts.otherProducts.necklace.img.src = "images/spiderverse-other-necklace.jpg"
+allProducts.shirtsProducts.tshirt.img.src = "images/spiderverse-shirts-spiderversetshirt0.jpeg"
 
 
 console.log(homePageImage)
