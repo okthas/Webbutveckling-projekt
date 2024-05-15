@@ -67,7 +67,7 @@ function addToCart(item) {
     cart.stack.append(item) // i dont know exactly how it works, ask for help
 }
 
-function renderProducts(products, variable) {
+function renderProducts(products, variable) { // this is where most of the site happens
     if (variable == "all") {
         length = Object.keys(products.otherProducts).length + Object.keys(products.shirtsProducts).length + Object.keys(products.pantsProducts).length
         rows = productMath(length)
@@ -79,7 +79,7 @@ function renderProducts(products, variable) {
             ctx.font=`40px Arial`;
             ctx.fillStyle="#fff"
             ctx.fillText(`${"$" + products.otherProducts.jordan1.price}`, i%2*canvas0.width/2+canvas0.width/2.7, canvas0.height/2*productMath(i)+canvas0.height/7+canvas0.height/10)
-            drawButton(i%2*canvas0.width/2+canvas0.width/2.7, canvas0.height/2*productMath(i)+canvas0.height/3, canvas0.width/15, canvas0.height/30, "Cart", addToCart, true, "#000", "#fff", products.otherProducts.jordan1)
+            drawButton(i%2*canvas0.width/2+canvas0.width/2.8, canvas0.height/2*productMath(i)+canvas0.height/3, canvas0.width/12, canvas0.height/30, "Add to Cart", addToCart, true, "#000", "#fff", products.otherProducts.jordan1)
             // jordan1 and otherProducts need to be changing variables to account for all products instead of being fixed values
         }
     }
@@ -90,6 +90,10 @@ function renderProducts(products, variable) {
             ctx.fillStyle="#666"
             ctx.fillRect(i%2*canvas0.width/2+canvas0.width/20, canvas0.height/2*productMath(i)+canvas0.height/7, canvas0.width/2-canvas0.width/10, canvas0.height/2-canvas0.height/10)
             ctx.drawImage(products.jordan1.img, i%2*canvas0.width/2+canvas0.width/20*1, canvas0.height/2*productMath(i)+canvas0.height/7, canvas0.width/2-canvas0.width/10*2, canvas0.height/2-canvas0.height/10)
+            ctx.font=`40px Arial`;
+            ctx.fillStyle="#fff"
+            ctx.fillText(`${"$" + products.jordan1.price}`, i%2*canvas0.width/2+canvas0.width/2.7, canvas0.height/2*productMath(i)+canvas0.height/7+canvas0.height/10)
+            drawButton(i%2*canvas0.width/2+canvas0.width/2.8, canvas0.height/2*productMath(i)+canvas0.height/3, canvas0.width/12, canvas0.height/30, "Add to Cart", addToCart, true, "#000", "#fff", products.otherProducts.jordan1)
             // jordan1 need to be a changing variable to account for all products instead of being fixed values
         }
     }
