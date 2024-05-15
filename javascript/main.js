@@ -61,6 +61,12 @@ function productMath(length) {
     return Math.round(length/3)
 }
 
+cart = []
+
+function addToCart(item) {
+    cart.stack.append(item) // i dont know exactly how it works, ask for help
+}
+
 function renderProducts(products, variable) {
     if (variable == "all") {
         length = Object.keys(products.otherProducts).length + Object.keys(products.shirtsProducts).length + Object.keys(products.pantsProducts).length
@@ -69,6 +75,12 @@ function renderProducts(products, variable) {
         for (i=0;i<length;i++) {
             ctx.fillStyle="#666"
             ctx.fillRect(i%2*canvas0.width/2+canvas0.width/20, canvas0.height/2*productMath(i)+canvas0.height/7, canvas0.width/2-canvas0.width/10, canvas0.height/2-canvas0.height/10)
+            ctx.drawImage(products.otherProducts.jordan1.img, i%2*canvas0.width/2+canvas0.width/20, canvas0.height/2*productMath(i)+canvas0.height/7, canvas0.width/2-canvas0.width/10*2, canvas0.height/2-canvas0.height/10)            // otherporducts && jordan1 need to be changing variables to account for all products
+            ctx.font=`40px Arial`;
+            ctx.fillStyle="#fff"
+            ctx.fillText(`${"$" + products.otherProducts.jordan1.price}`, i%2*canvas0.width/2+canvas0.width/2.7, canvas0.height/2*productMath(i)+canvas0.height/7+canvas0.height/10)
+            drawButton(i%2*canvas0.width/2+canvas0.width/2.7, canvas0.height/2*productMath(i)+canvas0.height/3, canvas0.width/15, canvas0.height/30, "Cart", addToCart, true, "#000", "#fff", products.otherProducts.jordan1)
+            // jordan1 and otherProducts need to be changing variables to account for all products instead of being fixed values
         }
     }
     else {
@@ -77,6 +89,8 @@ function renderProducts(products, variable) {
         for (i=0;i<Object.keys(products).length;i++) {
             ctx.fillStyle="#666"
             ctx.fillRect(i%2*canvas0.width/2+canvas0.width/20, canvas0.height/2*productMath(i)+canvas0.height/7, canvas0.width/2-canvas0.width/10, canvas0.height/2-canvas0.height/10)
+            ctx.drawImage(products.jordan1.img, i%2*canvas0.width/2+canvas0.width/20*1, canvas0.height/2*productMath(i)+canvas0.height/7, canvas0.width/2-canvas0.width/10*2, canvas0.height/2-canvas0.height/10)
+            // jordan1 need to be a changing variable to account for all products instead of being fixed values
         }
     }
     drawButton(0, 0, canvas0.width/5, canvas0.height/9, variable, itemType, true, "#000", "#fff", variable);
