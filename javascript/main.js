@@ -41,8 +41,7 @@ let allProducts = {
 }
 allProducts.otherProducts.jordan1.img.src = "images/spiderverse-other-jordans.webp"
 allProducts.otherProducts.necklace.img.src = "images/spiderverse-other-necklace.jpg"
-allProducts.shirtsProducts.tshirt.img.src = "images/spiderverse-shirts-spiderversetshirt0.jpeg"
-
+allProducts.shirtsProducts.tshirt.img.src = "images/spiderverse-shirts-spiderversetshirt0.jpg"
 
 console.log(homePageImage)
 
@@ -68,6 +67,8 @@ function addToCart(item) {
 }
 
 function renderProducts(products, variable) { // this is where most of the site happens
+    let price = undefined
+    let image = undefined
     if (variable == "all") {
         length = Object.keys(products.otherProducts).length + Object.keys(products.shirtsProducts).length + Object.keys(products.pantsProducts).length
         rows = productMath(length)
@@ -75,10 +76,29 @@ function renderProducts(products, variable) { // this is where most of the site 
         for (i=0;i<length;i++) {
             ctx.fillStyle="#666"
             ctx.fillRect(i%2*canvas0.width/2+canvas0.width/20, canvas0.height/2*productMath(i)+canvas0.height/7, canvas0.width/2-canvas0.width/10, canvas0.height/2-canvas0.height/10)
-            ctx.drawImage(products.otherProducts.jordan1.img, i%2*canvas0.width/2+canvas0.width/20, canvas0.height/2*productMath(i)+canvas0.height/7, canvas0.width/2-canvas0.width/10*2, canvas0.height/2-canvas0.height/10)            // otherporducts && jordan1 need to be changing variables to account for all products
+            if (i%2*canvas0.width/2+canvas0.width/2.7 == 0%2*canvas0.width/2+canvas0.width/2.7 && canvas0.height/2*productMath(i)+canvas0.height/7+canvas0.height/10 == canvas0.height/2*productMath(0)+canvas0.height/7+canvas0.height/10) {
+                image = products.otherProducts.jordan1.img
+            }
+            else if (i%2*canvas0.width/2+canvas0.width/2.7 == 1%2*canvas0.width/2+canvas0.width/2.7 && canvas0.height/2*productMath(i)+canvas0.height/7+canvas0.height/10 == canvas0.height/2*productMath(1)+canvas0.height/7+canvas0.height/10) {
+                image = products.otherProducts.necklace.img
+            }
+            else if (i%2*canvas0.width/2+canvas0.width/2.7 == 2%2*canvas0.width/2+canvas0.width/2.7 && canvas0.height/2*productMath(i)+canvas0.height/7+canvas0.height/10 == canvas0.height/2*productMath(2)+canvas0.height/7+canvas0.height/10) {
+                image = products.shirtsProducts.tshirt.img
+            }
+            ctx.drawImage(image, i%2*canvas0.width/2+canvas0.width/20, canvas0.height/2*productMath(i)+canvas0.height/7, canvas0.width/2-canvas0.width/10*2, canvas0.height/2-canvas0.height/10)            // otherporducts && jordan1 need to be changing variables to account for all products
+            
+            if (i%2*canvas0.width/2+canvas0.width/2.7 == 0%2*canvas0.width/2+canvas0.width/2.7 && canvas0.height/2*productMath(i)+canvas0.height/7+canvas0.height/10 == canvas0.height/2*productMath(0)+canvas0.height/7+canvas0.height/10) {
+                price = products.otherProducts.jordan1.price
+            }
+            else if (i%2*canvas0.width/2+canvas0.width/2.7 == 1%2*canvas0.width/2+canvas0.width/2.7 && canvas0.height/2*productMath(i)+canvas0.height/7+canvas0.height/10 == canvas0.height/2*productMath(1)+canvas0.height/7+canvas0.height/10) {
+                price = products.otherProducts.necklace.price
+            }
+            else if (i%2*canvas0.width/2+canvas0.width/2.7 == 2%2*canvas0.width/2+canvas0.width/2.7 && canvas0.height/2*productMath(i)+canvas0.height/7+canvas0.height/10 == canvas0.height/2*productMath(2)+canvas0.height/7+canvas0.height/10) {
+                price = products.shirtsProducts.tshirt.price
+            }
             ctx.font=`40px Arial`;
             ctx.fillStyle="#fff"
-            ctx.fillText(`${"$" + products.otherProducts.jordan1.price}`, i%2*canvas0.width/2+canvas0.width/2.7, canvas0.height/2*productMath(i)+canvas0.height/7+canvas0.height/10)
+            ctx.fillText(`${"$" + price}`, i%2*canvas0.width/2+canvas0.width/2.7, canvas0.height/2*productMath(i)+canvas0.height/7+canvas0.height/10)
             drawButton(i%2*canvas0.width/2+canvas0.width/2.8, canvas0.height/2*productMath(i)+canvas0.height/3, canvas0.width/12, canvas0.height/30, "Add to Cart", addToCart, true, "#000", "#fff", products.otherProducts.jordan1)
             // jordan1 and otherProducts need to be changing variables to account for all products instead of being fixed values
         }
@@ -86,20 +106,45 @@ function renderProducts(products, variable) { // this is where most of the site 
     else {
         rows = productMath(Object.keys(products).length)
         canvas.height = window.innerHeight + rows * canvas0.height/2+canvas0.height/7  // makes it so if there are more than 2 products then the height of the canvas is increased to give them space to render
-        for (i=0;i<Object.keys(products).length;i++) {
+        if (variable == "other") {
+            price = products.jordan1.price
+            image = products.jordan1.img
+        }
+        if (variable == "pants") {
+            price = null
+            image = null
+        }
+        if (variable == "shirts") {
+            price = products.tshirt.price
+            image = products.tshirt.img
+        }
+        if (variable == "other") {
             ctx.fillStyle="#666"
-            ctx.fillRect(i%2*canvas0.width/2+canvas0.width/20, canvas0.height/2*productMath(i)+canvas0.height/7, canvas0.width/2-canvas0.width/10, canvas0.height/2-canvas0.height/10)
-            ctx.drawImage(products.jordan1.img, i%2*canvas0.width/2+canvas0.width/20*1, canvas0.height/2*productMath(i)+canvas0.height/7, canvas0.width/2-canvas0.width/10*2, canvas0.height/2-canvas0.height/10)
+            ctx.fillRect(0%2*canvas0.width/2+canvas0.width/20, canvas0.height/2*productMath(0)+canvas0.height/7, canvas0.width/2-canvas0.width/10, canvas0.height/2-canvas0.height/10)
+            ctx.fillRect(1%2*canvas0.width/2+canvas0.width/20, canvas0.height/2*productMath(1)+canvas0.height/7, canvas0.width/2-canvas0.width/10, canvas0.height/2-canvas0.height/10)
+            ctx.drawImage(products.jordan1.img, 0%2*canvas0.width/2+canvas0.width/20, canvas0.height/2*productMath(0)+canvas0.height/7, canvas0.width/2-canvas0.width/10*2, canvas0.height/2-canvas0.height/10)          
+            ctx.drawImage(products.necklace.img, 1%2*canvas0.width/2+canvas0.width/20, canvas0.height/2*productMath(1)+canvas0.height/7, canvas0.width/2-canvas0.width/10*2, canvas0.height/2-canvas0.height/10)            
             ctx.font=`40px Arial`;
             ctx.fillStyle="#fff"
-            ctx.fillText(`${"$" + products.jordan1.price}`, i%2*canvas0.width/2+canvas0.width/2.7, canvas0.height/2*productMath(i)+canvas0.height/7+canvas0.height/10)
-            drawButton(i%2*canvas0.width/2+canvas0.width/2.8, canvas0.height/2*productMath(i)+canvas0.height/3, canvas0.width/12, canvas0.height/30, "Add to Cart", addToCart, true, "#000", "#fff", products.otherProducts.jordan1)
-            // jordan1 need to be a changing variable to account for all products instead of being fixed values
+            ctx.fillText(`${"$" + products.jordan1.price}`, 0%2*canvas0.width/2+canvas0.width/2.7, canvas0.height/2*productMath(0)+canvas0.height/7+canvas0.height/10)
+            ctx.fillText(`${"$" + products.necklace.price}`, 1%2*canvas0.width/2+canvas0.width/2.7, canvas0.height/2*productMath(1)+canvas0.height/7+canvas0.height/10)
+            drawButton(0%2*canvas0.width/2+canvas0.width/2.8, canvas0.height/2*productMath(0)+canvas0.height/3, canvas0.width/12, canvas0.height/30, "Add to Cart", addToCart, true, "#000", "#fff", products.jordan1)
+            drawButton(1%2*canvas0.width/2+canvas0.width/2.8, canvas0.height/2*productMath(1)+canvas0.height/3, canvas0.width/12, canvas0.height/30, "Add to Cart", addToCart, true, "#000", "#fff", products.jordan1)
+        }
+        else if (variable == "shirts") {
+            ctx.fillStyle="#666"
+            ctx.fillRect(0%2*canvas0.width/2+canvas0.width/20, canvas0.height/2*productMath(0)+canvas0.height/7, canvas0.width/2-canvas0.width/10, canvas0.height/2-canvas0.height/10)
+            ctx.drawImage(products.tshirt.img, 0%2*canvas0.width/2+canvas0.width/20, canvas0.height/2*productMath(0)+canvas0.height/7, canvas0.width/2-canvas0.width/10*2, canvas0.height/2-canvas0.height/10)          
+            ctx.font=`40px Arial`;
+            ctx.fillStyle="#fff"
+            ctx.fillText(`${"$" + products.tshirt.price}`, 0%2*canvas0.width/2+canvas0.width/2.7, canvas0.height/2*productMath(0)+canvas0.height/7+canvas0.height/10)
+            drawButton(0%2*canvas0.width/2+canvas0.width/2.8, canvas0.height/2*productMath(0)+canvas0.height/3, canvas0.width/12, canvas0.height/30, "Add to Cart", addToCart, true, "#000", "#fff", products.jordan1)
         }
     }
     drawButton(0, 0, canvas0.width/5, canvas0.height/9, variable, itemType, true, "#000", "#fff", variable);
     drawButton(0, canvas.height - canvas0.height/30, canvas0.width/15, canvas0.height/30, "Flappy Bird", flappyBird, true, "#000", "#fff", null);
 }
+
 
 function all(variable) {
     variable = "all"
@@ -187,6 +232,11 @@ function drawButton(x, y, width, height, text, onClick, enabled, color, textColo
 
     canvas.addEventListener("click", clickHandler);
 }
+
+document.body.addEventListener("keydown", function (e) {
+    document.parentElement.innerHTML = document.parentElement.innerHTML;
+    console.log(e.code)
+});
 
 let variable = "all"
 
